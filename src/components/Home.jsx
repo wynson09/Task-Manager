@@ -17,6 +17,7 @@ const Home = () => {
   const [count, setCount] = useState(data.length);
   const [clickSort, setClickSort] = useState(false);
 
+  /* I used useMemo to hold the data per page */
   const currentTableData = useMemo(() => {
     if (clickSort) {
       const firstPageIndex = (currentPage - 1) * pageSize;
@@ -29,6 +30,10 @@ const Home = () => {
     }
   }, [currentPage, dataTask, clickSort]);
 
+  /* 
+        This function will handle add data to the current data from JSON .
+        And also will handle the update funtionality .
+  */
   const handleSubmit = (e) => {
     e.preventDefault();
     if (clickEdit) {
@@ -62,12 +67,18 @@ const Home = () => {
     }
   };
 
+  /* 
+        This function will reset all the input fields.
+   */
   const resetFields = () => {
     setTitle("");
     setDesc("");
     setDate("");
   };
 
+  /* 
+        This handleEdit function will hold the value of title, description and date that being use to update the current data from JSON DB.
+   */
   const handleEdit = (title, description, date) => {
     if (selectedId !== null) {
       setTitle(title);
@@ -76,6 +87,9 @@ const Home = () => {
     }
   };
 
+  /* 
+        This delete function will filter the selected row id and remove it from the list of data.
+  */
   const handleDelete = useCallback(() => {
     if (selectedId !== null) {
       const newDataList = dataTask.filter((item) => item.id !== selectedId);
@@ -84,20 +98,29 @@ const Home = () => {
     }
   }, [dataTask, selectedId]);
 
+  /* 
+        This will sort the data by dates.
+   */
   const handleSort = () => {
-    let newSortData = dataTask.map((item) => {
-      return {
-        ...item,
-        date: new Date(item.date),
-      };
-    });
-    console.log(newSortData);
-    setDataTask(newSortData);
+    if (clickSort) {
+      dataTask.sort((a, b) => {
+        return new Date(a.date) - new Date(b.date); // descending
+      });
+    } else {
+      dataTask.sort((a, b) => {
+        return new Date(b.date) - new Date(a.date); // ascending
+      });
+    }
+    setDataTask(dataTask);
     setClickSort(!clickSort);
   };
 
   return (
     <section className="relative shadow-lg bg-[#d7eaf3] p-20 rounded-lg">
+      {/* 
+            A popup components that will be shown if the user will adding or updating data from the JSON DB.
+            Send specific probs that are needed to the popup component
+        */}
       <Popup
         clickAdd={clickAdd}
         setClickAdd={setClickAdd}
@@ -125,6 +148,10 @@ const Home = () => {
           Add Task
         </button>
       </div>
+
+      {/* 
+            I set up a table to map all data from the data from JSON DB
+       */}
       <table className="border-solid border-3 min-w-[60em] text-center">
         <thead>
           <tr className="bg-[#14397d] text-[#d7eaf3]">
@@ -139,6 +166,9 @@ const Home = () => {
           </tr>
         </thead>
         <tbody>
+          {/* 
+                    It will map the data and have a dynamic display
+            */}
           {currentTableData.map((item) => {
             const newDate = new Date(item?.date).toLocaleDateString("en-US", {
               year: "numeric",
@@ -165,6 +195,10 @@ const Home = () => {
           })}
         </tbody>
       </table>
+
+      {/* 
+            Send specific probs that are needed to the Pagination component
+      */}
       <Pagination
         className="pagination-bar"
         currentPage={currentPage}

@@ -1,70 +1,44 @@
-# Getting Started with Create React App
+I uploaded it on a live server
+Here's the link: https://wn-taskmanager.pages.dev/
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+The design is simple because I am focusing on the functionality of certain features:
 
-## Available Scripts
+Problem 1
+Implement the following CRUD operations for tasks:
 
-In the project directory, you can run:
+- Create a new task by providing a task title, description, and due date.
+- Retrieve a specific task by its ID.
+- Update the details of a task (title, description, and/or due date).
+- Delete a task by its ID.
+- Retrieve all tasks.
 
-### `npm start`
+Problem 2
+Extend the Task Manager API from Problem 1 to include data validation for task creation
+and update operations:
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+- Validate that the task title is not empty and does not exceed a certain length.
+- Validate that the due date is a valid date in the future.
+- Return appropriate error responses with descriptive messages if any validation
+  fails.
+- Update the API endpoints from Problem 1 to include the necessary data validation
+  checks.
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+Problem 3
+Extend the Task Manager API from Problem 1 to include pagination and sorting options
+for retrieving tasks:
 
-### `npm test`
+- Add pagination support to limit the number of tasks returned per page and provide
+  pagination metadata (total number of tasks, total pages, etc.).
+- Add sorting support to retrieve tasks in ascending or descending order based on
+  the task's due date or any other relevant field.
+- Update the API endpoints from Problem 1 to include the necessary pagination and
+  sorting options.
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+Intruction to run this code.
 
-### `npm run build`
+When you are using your VSCODE, Go to source control (Ctrl + Shift + G) and select clone repository.
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
-
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
-
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+- Paste this Github repository URL : https://github.com/wynson09/Task-Manager.git
+- Next you will select directory path/folder you want to put the clone project.
+- Open terminal and type " npm i " to install all nessesary dependencies.
+- Last type npm start to run the code in react.

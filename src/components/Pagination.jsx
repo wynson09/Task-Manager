@@ -2,6 +2,9 @@ import React from "react";
 import classnames from "classnames";
 import { usePagination, DOTS } from "../usePagination";
 const Pagination = (props) => {
+  /* 
+      Destructing the probs received from home components
+  */
   const {
     onPageChange,
     totalCount,
@@ -14,6 +17,9 @@ const Pagination = (props) => {
     selectedId,
   } = props;
 
+  /* 
+      To compute the pagination range need to pass neccesary props
+  */
   const paginationRange = usePagination({
     currentPage,
     totalCount,
