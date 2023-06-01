@@ -159,13 +159,33 @@ const Home = () => {
    */
   const handleSort = () => {
     if (clickSort) {
-      dataTask.sort((a, b) => {
-        return new Date(a.date) - new Date(b.date); // descending
-      });
+      fetch("http://localhost:8000/task?_sort=date&_order=asc")
+        .then((res) => {
+          return res.json();
+        })
+        .then((res) => {
+          setDataTask(res);
+          setCount(res.length);
+          setDataRequest(false);
+        })
+        .catch((err) => {
+          console.log(err.message);
+          setDataRequest(false);
+        });
     } else {
-      dataTask.sort((a, b) => {
-        return new Date(b.date) - new Date(a.date); // ascending
-      });
+      fetch("http://localhost:8000/task?_sort=date&_order=desc")
+        .then((res) => {
+          return res.json();
+        })
+        .then((res) => {
+          setDataTask(res);
+          setCount(res.length);
+          setDataRequest(false);
+        })
+        .catch((err) => {
+          console.log(err.message);
+          setDataRequest(false);
+        });
     }
     setDataTask(dataTask);
     setClickSort(!clickSort);
