@@ -41,4 +41,5 @@ When you are using your VSCODE, Go to source control (Ctrl + Shift + G) and sele
 - Paste this Github repository URL : https://github.com/wynson09/Task-Manager.git
 - Next you will select directory path/folder you want to put the clone project.
 - Open terminal and type " npm i " to install all nessesary dependencies.
-- Last type npm start to run the code in react.
+- Next type in the terminal json-server --watch db.json --port 8000.
+- Lastly type " npm start " in the to run the code in react.

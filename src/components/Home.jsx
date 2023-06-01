@@ -1,12 +1,12 @@
-import React, { useState, useMemo, useCallback } from "react";
+import React, { useState, useMemo, useCallback, useEffect } from "react";
 import Pagination from "./Pagination";
-import data from "../data/mock-data.json";
 import { BiSort } from "react-icons/bi";
 import Popup from "./Popup";
 
 let pageSize = 10;
 const Home = () => {
-  const [dataTask, setDataTask] = useState(data);
+  const [dataTask, setDataTask] = useState(null);
+  const [dataRequest, setDataRequest] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
   const [selectedId, setSelectedId] = useState(null);
   const [clickEdit, setClickEdit] = useState(false);
@@ -14,56 +14,106 @@ const Home = () => {
   const [title, setTitle] = useState("");
   const [desc, setDesc] = useState("");
   const [date, setDate] = useState("");
-  const [count, setCount] = useState(data.length);
+  const [count, setCount] = useState(null);
   const [clickSort, setClickSort] = useState(false);
+
+  useEffect(() => {
+    fetch("http://localhost:8000/task")
+      .then((res) => {
+        return res.json();
+      })
+      .then((res) => {
+        setDataTask(res);
+        setCount(res.length);
+      })
+      .catch((err) => {
+        console.log(err.message);
+      });
+  }, []);
+
+  useEffect(() => {
+    if (dataRequest) {
+      fetch("http://localhost:8000/task")
+        .then((res) => {
+          return res.json();
+        })
+        .then((res) => {
+          setDataTask(res);
+          setCount(res.length);
+          setDataRequest(false);
+        })
+        .catch((err) => {
+          console.log(err.message);
+          setDataRequest(false);
+        });
+    }
+  }, [dataRequest]);
 
   /* I used useMemo to hold the data per page */
   const currentTableData = useMemo(() => {
     if (clickSort) {
       const firstPageIndex = (currentPage - 1) * pageSize;
       const lastPageIndex = firstPageIndex + pageSize;
-      return dataTask.slice(firstPageIndex, lastPageIndex);
+      return dataTask?.slice(firstPageIndex, lastPageIndex);
     } else {
       const firstPageIndex = (currentPage - 1) * pageSize;
       const lastPageIndex = firstPageIndex + pageSize;
-      return dataTask.slice(firstPageIndex, lastPageIndex);
+      return dataTask?.slice(firstPageIndex, lastPageIndex);
     }
   }, [currentPage, dataTask, clickSort]);
 
   /* 
-        This function will handle add data to the current data from JSON .
-        And also will handle the update funtionality .
+        This function will handle POST operation request to an api .
+        And also will handle the PUT/update request .
   */
   const handleSubmit = (e) => {
     e.preventDefault();
     if (clickEdit) {
-      for (let i = 0; i < dataTask.length; i++) {
-        if (dataTask[i].id === selectedId) {
-          dataTask[i].title = title;
-          dataTask[i].description = desc;
-          dataTask[i].date = date;
-        }
-      }
-      resetFields();
-      setDataTask(dataTask);
-      setClickEdit(false);
-      setSelectedId(null);
+      const newData2 = {
+        id: selectedId,
+        title,
+        description: desc,
+        date,
+      };
+
+      fetch(`http://localhost:8000/task/${selectedId}`, {
+        method: "PUT",
+        headers: { "content-type": "application/json" },
+        body: JSON.stringify(newData2),
+      })
+        .then(() => {
+          resetFields();
+          setSelectedId(null);
+          setClickEdit(false);
+          setDataRequest(true);
+        })
+        .catch((err) => {
+          console.log(err.message);
+        });
       return;
     }
     if (clickAdd) {
-      dataTask.reverse();
       const newData = {
         id: dataTask.length + 1,
         title,
         description: desc,
         date,
       };
-      const newListData = [...dataTask, newData];
-      newListData.reverse();
-      setDataTask(newListData);
-      setCount(dataTask.length + 1);
-      resetFields();
-      setClickAdd(false);
+
+      fetch("http://localhost:8000/task", {
+        method: "POST",
+        headers: { "content-type": "application/json" },
+        body: JSON.stringify(newData),
+      })
+        .then(() => {
+          resetFields();
+          setClickAdd(false);
+          setDataRequest(true);
+          alert("Saved successfully.");
+        })
+        .catch((err) => {
+          console.log(err.message);
+        });
     }
   };
 
@@ -79,8 +129,8 @@ const Home = () => {
   /* 
         This handleEdit function will hold the value of title, description and date that being use to update the current data from JSON DB.
    */
-  const handleEdit = (title, description, date) => {
-    if (selectedId !== null) {
+  const handleEdit = (id, title, description, date) => {
+    if (id !== null) {
       setTitle(title);
       setDesc(description);
       setDate(date);
@@ -88,15 +138,21 @@ const Home = () => {
   };
 
   /* 
-        This delete function will filter the selected row id and remove it from the list of data.
+        This delete function will delete the selected row by id and remove it from the database.
   */
   const handleDelete = useCallback(() => {
     if (selectedId !== null) {
-      const newDataList = dataTask.filter((item) => item.id !== selectedId);
-      setDataTask(newDataList);
-      setCount(newDataList.length);
+      fetch(`http://localhost:8000/task/${selectedId}`, {
+        method: "DELETE",
+      })
+        .then(() => {
+          setDataRequest(true);
+        })
+        .catch((err) => {
+          console.log(err.message);
+        });
     }
-  }, [dataTask, selectedId]);
+  }, [selectedId]);
 
   /* 
         This will sort the data by dates.
@@ -169,7 +225,7 @@ const Home = () => {
           {/* 
                     It will map the data and have a dynamic display
             */}
-          {currentTableData.map((item) => {
+          {currentTableData?.map((item) => {
             const newDate = new Date(item?.date).toLocaleDateString("en-US", {
               year: "numeric",
               month: "long",
@@ -183,7 +239,7 @@ const Home = () => {
                 }}
                 onClick={() => {
                   setSelectedId(item.id);
-                  handleEdit(item.title, item.description, item.date);
+                  handleEdit(item.id, item.title, item.description, item.date);
                 }}
                 key={item.id}
               >
