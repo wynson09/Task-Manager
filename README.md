@@ -1,6 +1,3 @@
-I uploaded it on a live server
-Here's the link: https://wn-taskmanager.pages.dev/
-
 The design is simple because I am focusing on the functionality of certain features:
 
 Problem 1
