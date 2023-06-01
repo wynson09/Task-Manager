@@ -40,3 +40,5 @@ When you are using your VSCODE, Go to source control (Ctrl + Shift + G) and sele
 - Open terminal and type " npm i " to install all nessesary dependencies.
 - Next type in the terminal json-server --watch db.json --port 8000.
 - Lastly type " npm start " in the to run the code in react.
+
+JSON SERVER Documentation : https://www.npmjs.com/package/json-server
