@@ -299,18 +299,6 @@
       "title": "Sample Title 50",
       "description": "This is a sample description for the fiftieth entry.",
       "date": "2023-07-20"
-    },
-    {
-      "id": 51,
-      "title": "test",
-      "description": "test",
-      "date": "2023-06-01"
-    },
-    {
-      "id": 52,
-      "title": "test",
-      "description": "test",
-      "date": "2023-06-02"
     }
   ]
 }

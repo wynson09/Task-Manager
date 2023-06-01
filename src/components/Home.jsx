@@ -18,7 +18,7 @@ const Home = () => {
   const [clickSort, setClickSort] = useState(false);
 
   useEffect(() => {
-    fetch("http://localhost:8000/task")
+    fetch("http://localhost:8000/task?_sort=date&_order=asc")
       .then((res) => {
         return res.json();
       })
@@ -33,7 +33,7 @@ const Home = () => {
 
   useEffect(() => {
     if (dataRequest) {
-      fetch("http://localhost:8000/task")
+      fetch("http://localhost:8000/task?_sort=date&_order=asc")
         .then((res) => {
           return res.json();
         })
